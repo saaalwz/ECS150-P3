@@ -122,22 +122,22 @@ int fs_umount(void)
 
     
     /* write root directory */
-	if (block_write(super_block.root_idx, &root) < 0) {
-	    return -1;
-	}
+    if (block_write(super_block.root_idx, &root) < 0) {
+        return -1;
+    }
 
-	/* close disk */
-	return block_disk_close();
+    /* close disk */
+    return block_disk_close();
 }
 
 int fs_info(void)
 {
-	/* TODO: Phase 1 */
-	int i;
-	int free_files = 0;
-	int free_blocks = 0;
+    /* TODO: Phase 1 */
+    int i;
+    int free_files = 0;
+    int free_blocks = 0;
 
-	/* calculate file number */
+    /* calculate file number */
     for (i = 0; i < FS_FILE_MAX_COUNT; ++i) {
         if (root[i].name[0] == '\0') {
             ++free_files;
@@ -166,8 +166,8 @@ int fs_info(void)
 
 int fs_create(const char *filename)
 {
-	/* TODO: Phase 2 */
-	int i;
+    /* TODO: Phase 2 */
+    int i;
     File* file = NULL;
 
     /* check file system  */
@@ -176,41 +176,41 @@ int fs_create(const char *filename)
     }
 
     /* check filename length */
-	if (strlen(filename) >= FS_FILENAME_LEN || strlen(filename) == 0) {
-	    return -1;
-	}
+    if (strlen(filename) >= FS_FILENAME_LEN || strlen(filename) == 0) {
+        return -1;
+    }
 
-	/* check whether already exists */
+    /* check whether already exists */
     for (i = 0; i < FS_FILE_MAX_COUNT; ++i) {
         if (strcmp(root[i].name, filename) == 0) {
             return -1;
         }
     }
 
-	/* find and empty entry */
-	for (i = 0; i < FS_FILE_MAX_COUNT; ++i) {
+    /* find and empty entry */
+    for (i = 0; i < FS_FILE_MAX_COUNT; ++i) {
         if (root[i].name[0] == '\0') {
             file = &root[i];
             break;
         }
-	}
+    }
 
-	/* root is full */
-	if (!file) {
+    /* root is full */
+    if (!file) {
         return -1;
-	}
+    }
 
-	/* create file */
-	strcpy(file->name, filename);
-	file->size = 0;
-	file->dblk_idx = FAT_EOC;
+    /* create file */
+    strcpy(file->name, filename);
+    file->size = 0;
+    file->dblk_idx = FAT_EOC;
 
-	return 0;
+    return 0;
 }
 
 int fs_delete(const char *filename)
 {
-	/* TODO: Phase 2 */
+    /* TODO: Phase 2 */
     int i;
     File* file = NULL;
     uint16_t block;
@@ -264,8 +264,8 @@ int fs_delete(const char *filename)
 
 int fs_ls(void)
 {
-	/* TODO: Phase 2 */
-	int i;
+    /* TODO: Phase 2 */
+    int i;
 
     /* check file system  */
     if (!fat) {
@@ -290,9 +290,9 @@ int fs_ls(void)
 
 int fs_open(const char *filename)
 {
-	/* TODO: Phase 3 */
-	int i;
-	File* file = NULL;
+    /* TODO: Phase 3 */
+    int i;
+    File* file = NULL;
 
     /* check file system  */
     if (!fat) {
@@ -337,9 +337,9 @@ int fs_open(const char *filename)
 
 int fs_close(int fd)
 {
-	/* TODO: Phase 3 */
+    /* TODO: Phase 3 */
 
-	/* check file system  */
+    /* check file system  */
     if (!fat) {
         return -1;
     }
@@ -363,7 +363,7 @@ int fs_close(int fd)
 
 int fs_stat(int fd)
 {
-	/* TODO: Phase 3 */
+    /* TODO: Phase 3 */
 
     /* check file system  */
     if (!fat) {
@@ -386,7 +386,7 @@ int fs_stat(int fd)
 
 int fs_lseek(int fd, size_t offset)
 {
-	/* TODO: Phase 3 */
+    /* TODO: Phase 3 */
     /* check file system  */
     if (!fat) {
         return -1;
@@ -414,23 +414,23 @@ int fs_lseek(int fd, size_t offset)
 
 int fs_write(int fd, void *buf, size_t count)
 {
-	/* TODO: Phase 4 */
-	File* file;
-	Dirent* dirent;
-	uint32_t left_size;
-	uint32_t alloc_size;
+    /* TODO: Phase 4 */
+    File* file;
+    Dirent* dirent;
+    uint32_t left_size;
+    uint32_t alloc_size;
     uint32_t alloc_num;
-	uint32_t block_num;
-	size_t written;
-	size_t n;
-	uint16_t block;
-	uint16_t prev;
-	int i;
-	uint32_t start_block;
-	uint32_t start_pos;
-	char block_buf[BLOCK_SIZE];
+    uint32_t block_num;
+    size_t written;
+    size_t n;
+    uint16_t block;
+    uint16_t prev;
+    int i;
+    uint32_t start_block;
+    uint32_t start_pos;
+    char block_buf[BLOCK_SIZE];
 
-	/* check file system  */
+    /* check file system  */
     if (!fat) {
         return -1;
     }
@@ -546,11 +546,11 @@ int fs_write(int fd, void *buf, size_t count)
 
 int fs_read(int fd, void *buf, size_t count)
 {
-	/* TODO: Phase 4 */
-	File* file;
-	Dirent* dirent;
-	size_t readn;
-	size_t n;
+    /* TODO: Phase 4 */
+    File* file;
+    Dirent* dirent;
+    size_t readn;
+    size_t n;
     int i;
     uint32_t start_block;
     uint32_t start_pos;
